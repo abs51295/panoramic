@@ -201,12 +201,15 @@ plot_volcano <- function(se_diff,
       segment.size = 0.3
     ) +
     ggplot2::scale_color_manual(
-      values = c(
-        "FDR < 0.01, |beta| > 5" = "#d62728",
-        "FDR < 0.05, |beta| > 5" = "#ff7f0e",
-        "FDR < 0.05" = "#2ca02c",
-        "p < 0.05" = "#1f77b4",
-        "Not significant" = "gray70"
+      values = stats::setNames(
+        c("#d62728", "#ff7f0e", "#2ca02c", "#1f77b4", "gray70"),
+        c(
+          paste0("FDR < 0.01, |beta| > ", effect_threshold),
+          paste0("FDR < ", fdr_threshold, ", |beta| > ", effect_threshold),
+          paste0("FDR < ", fdr_threshold),
+          "p < 0.05",
+          "Not significant"
+        )
       ),
       breaks = c(
         paste0("FDR < 0.01, |beta| > ", effect_threshold),
