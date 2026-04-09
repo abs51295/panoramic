@@ -160,13 +160,20 @@ plot_volcano <- function(se_diff,
   }
 
   meta <- S4Vectors::metadata(se_diff)$panoramic
-  radius <- if (!is.null(rd$radius_um)) unique(rd$radius_um)[1] else "unknown"
+  all_radii <- if (!is.null(rd$radius_um)) unique(rd$radius_um) else NULL
+  radius_label <- if (is.null(all_radii)) {
+    "unknown"
+  } else if (length(all_radii) == 1L) {
+    paste0(all_radii, " um")
+  } else {
+    paste0(min(all_radii), "\u2013", max(all_radii), " um (all radii)")
+  }
 
   if (is.null(title)) {
-    if (!is.null(meta$contrast)) {
+    if (!is.null(meta$comparison)) {
       title <- paste0(
         "Differential spatial colocalization: ",
-        meta$contrast$case, " vs. ", meta$contrast$control
+        meta$comparison$case, " vs. ", meta$comparison$control
       )
     } else {
       title <- "Differential spatial colocalization"
@@ -226,7 +233,7 @@ plot_volcano <- function(se_diff,
       color = "Significance",
       size = "|Effect size|",
       title = title,
-      subtitle = paste0("Radius: ", radius, " um")
+      subtitle = paste0("Radius: ", radius_label)
     ) +
     ggplot2::theme_minimal(base_size = 12) +
     ggplot2::theme(
@@ -901,7 +908,8 @@ plot_spatial_network <- function(net_result,
       box.padding = 0.5
     ) +
     ggplot2::scale_color_brewer(palette = "Set2", name = "Cluster") +
-    ggplot2::scale_size_continuous(range = c(6, 20), name = "Degree") +
+    ggplot2::scale_size_continuous(range = c(6, 20),
+                                   name = tools::toTitleCase(node_size_by)) +
     ggplot2::labs(
       title = "Spatial Colocalization Network",
       subtitle = sprintf(

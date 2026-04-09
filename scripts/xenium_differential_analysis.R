@@ -254,7 +254,6 @@ prep_list <- panoramic_prepare(
   min_cells = opt$min_cells,    # Drop types with < min_cells per sample
   window    = "concave",        # Concave hull for irregular tissue sections
   concavity = 50,               # Moderate detail; increase for tighter hulls
-  seed      = opt$seed,
   BPPARAM   = bpparam
 )
 
