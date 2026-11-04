@@ -13,7 +13,7 @@ Description: Quantifies and compares cell-type spatial colocalization
 URL: https://github.com/plevritis-lab/panoramic
 BugReports: https://github.com/plevritis-lab/panoramic/issues    
 License: MIT + file LICENSE
-Depends: R (>= 4.6)
+Depends: R (>= 4.4)
 Imports: 
     dplyr, 
     ggplot2, 
